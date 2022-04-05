@@ -23,26 +23,60 @@ const App = () => {
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
-const Statistics = (props) => {
-  const all = props.good + props.neutral + props.bad
+const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad
   let positive = 0;
   let average = 0;
-  if(all > 0) {
-    positive = (props.good / all) * 100
-    average = (props.good - props.bad) / all
+  const statisticHeader = "statistics"
+
+  if (all > 0) {
+    positive = (good / all) * 100
+    average = (good - bad) / all
+
+    return (
+      <div>
+        <h1>{statisticHeader}</h1>
+        <table cellSpacing="0" cellPadding="0" border="0">
+          <tbody>
+            <tr>
+              <td><StatisticLine text="good" /></td>
+              <td><StatisticLine value={good} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="neutral" /></td>
+              <td><StatisticLine value={neutral} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="bad" /></td>
+              <td><StatisticLine value={bad} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="all" /></td>
+              <td><StatisticLine value={all} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="average" /></td>
+              <td><StatisticLine value={average.toFixed(1)} /></td>
+            </tr>
+            <tr>
+              <td><StatisticLine text="positive" /></td>
+              <td><StatisticLine value={`${positive.toFixed(1)} %`} /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    )
   }
-  
-  return (
-    <div>
-      <h1>statistics</h1>
-      <p>good {props.good}</p>
-      <p>neutral {props.neutral}</p>
-      <p>bad {props.bad}</p>
-      <p>all {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive} %</p>
-    </div>
-  )
+  else {
+    return (
+      <div>
+        <h1>{statisticHeader}</h1>
+        <StatisticLine text="no feedback given" />
+      </div>
+    )
+  }
 }
+
+const StatisticLine = ({ text, value }) => <p style={{margin: 1.5 + 'px'}}>{text} {value}</p>
 
 export default App
