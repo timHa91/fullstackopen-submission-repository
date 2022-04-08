@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-let trackGeneratedNumber = 0;
+
 
 const App = () => {
   const anecdotes = [
@@ -15,10 +15,16 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
-  const [mostVoted, setMostVoted] = useState('')
+
+  let mostVoted = points[0]
+  points.forEach(e => {
+      if (mostVoted < e)
+        mostVoted = e
+    })
 
   const getRandomInt = () => Math.floor(Math.random() * anecdotes.length)
 
+  let trackGeneratedNumber = 0;
   const randomAnecdote = () => {
     let generatedNumber = getRandomInt();
     // Avoid repeating
@@ -28,22 +34,12 @@ const App = () => {
     trackGeneratedNumber = generatedNumber;
 
     setSelected(generatedNumber)
-
   }
+
   const setVote = () => {
-    const copyPoints = points.concat()
+    const copyPoints = [...points]
     copyPoints[selected] += 1
     setPoints(copyPoints)
-    findAndSetMostVoted(copyPoints)
-  }
-
-  const findAndSetMostVoted = (array) => {
-    let max = array[0]
-    array.forEach(e => {
-      if (max < e)
-        max = e
-    })
-    setMostVoted(array.indexOf(max))
   }
 
   return (
@@ -51,7 +47,7 @@ const App = () => {
       <OfTheDay anecdote={anecdotes[selected]} points={points[selected]}/>
       <button onClick={setVote}>vote</button>
       <button onClick={randomAnecdote}>next anecdote</button>
-      <MostVotes anecdote={anecdotes[mostVoted]} points={points[mostVoted]} />
+      <MostVotes anecdote={anecdotes[points.indexOf(mostVoted)]} points={mostVoted} />
     </div>
   )
 }

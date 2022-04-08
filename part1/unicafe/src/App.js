@@ -35,34 +35,16 @@ const Statistics = ({ good, neutral, bad }) => {
 
     return (
       <div>
-        <h1>{statisticHeader}</h1>
-        <table cellSpacing="0" cellPadding="0" border="0">
-          <tbody>
-            <tr>
-              <td><StatisticLine text="good" /></td>
-              <td><StatisticLine value={good} /></td>
-            </tr>
-            <tr>
-              <td><StatisticLine text="neutral" /></td>
-              <td><StatisticLine value={neutral} /></td>
-            </tr>
-            <tr>
-              <td><StatisticLine text="bad" /></td>
-              <td><StatisticLine value={bad} /></td>
-            </tr>
-            <tr>
-              <td><StatisticLine text="all" /></td>
-              <td><StatisticLine value={all} /></td>
-            </tr>
-            <tr>
-              <td><StatisticLine text="average" /></td>
-              <td><StatisticLine value={average.toFixed(1)} /></td>
-            </tr>
-            <tr>
-              <td><StatisticLine text="positive" /></td>
-              <td><StatisticLine value={`${positive.toFixed(1)} %`} /></td>
-            </tr>
-          </tbody>
+        <h3>{statisticHeader}</h3>
+        <table>
+        <tbody>
+          <StatisticLine text='good' value={good} />
+          <StatisticLine text='neutral' value={neutral} />
+          <StatisticLine text='bad' value={bad} />
+          <StatisticLine text='all' value={all} />
+          <StatisticLine text='average' value={average.toFixed(1)} />
+          <StatisticLine text='positive' value={positive.toFixed(1) + '%'} />
+        </tbody>
         </table>
       </div>
     )
@@ -70,13 +52,17 @@ const Statistics = ({ good, neutral, bad }) => {
   else {
     return (
       <div>
-        <h1>{statisticHeader}</h1>
+        <h3>{statisticHeader}</h3>
         <StatisticLine text="no feedback given" />
       </div>
     )
   }
 }
 
-const StatisticLine = ({ text, value }) => <p style={{margin: 1.5 + 'px'}}>{text} {value}</p>
+const StatisticLine = ({ text, value }) => 
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 
 export default App
